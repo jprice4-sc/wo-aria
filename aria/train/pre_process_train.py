@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from ada.models.auto_encoder import Autoencoder
+from aria.models.auto_encoder import Autoencoder
 
 
 def load_preprocessed_data(file_path):

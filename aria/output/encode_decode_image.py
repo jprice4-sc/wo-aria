@@ -5,8 +5,8 @@ import torch
 from PIL import Image, ImageEnhance
 from torchvision import transforms
 
-from ada.models.auto_encoder import Autoencoder
-from ada.models.conv_AE import ConvAutoencoder
+from aria.models.auto_encoder import Autoencoder
+from aria.models.conv_AE import ConvAutoencoder
 
 img_size = 224
 

@@ -7,7 +7,52 @@ import numpy as np
 import torch
 from tqdm import tqdm
 
-from ada.data.image_class_mapping import CustomImageDataset
+# image_class_mapping.py
+
+import os
+import random
+
+import torch
+from PIL import Image, ImageFile
+from torch.utils.data import Dataset
+from torchvision import transforms
+
+# Ensure loading of truncated images
+ImageFile.LOAD_TRUNCATED_IMAGES = True
+
+
+class CustomImageDataset(Dataset):
+    def __init__(self, root_dir, transform=None):
+        self.root_dir = root_dir
+        self.transform = transform
+        self.image_paths = []
+        self.labels = []
+
+        for root, _, files in os.walk(root_dir):
+            for file in files:
+                if file.endswith((".png", ".jpg", ".jpeg")):
+                    self.image_paths.append(os.path.join(root, file))
+
+    def __len__(self):
+        return len(self.image_paths)
+
+    def __getitem__(self, idx):
+        img_path = self.image_paths[idx]
+        image = Image.open(img_path)
+
+        if image.mode != "L":
+            image = image.convert("L")
+
+        if self.transform:
+            image = self.transform(image)
+
+        return image, 0  # Assuming you don't have labels
+
+    def print_class_info(self):
+        print(f"Number of classes: {len(self.label_to_index)}")
+        print("Classes and their directories:")
+        for label in self.label_to_index:
+            print(f"{self.label_to_index[label]}: {label}")
 
 
 def preprocess_16bit_image(image_path: str, target_size: tuple[int, int] = (224, 224)) -> torch.Tensor | None:
@@ -40,8 +85,10 @@ def preprocess_16bit_image(image_path: str, target_size: tuple[int, int] = (224,
 
 
 if __name__:
-    image_dir = r"D:\ADA\Proto_A_data\Autoencoder_work\preprocessed IQ images"
-    output_file = r"D:\ADA\Proto_A_data\Autoencoder_work\preprocessed image tensors\preprocessed_IQtester_fill_512.pt"
+    image_dir = r'/Users/jprice/Documents/aria/preprocessed_images/IQ TESTER'
+    output_file = r"/Users/jprice/Documents/aria/preprocessed_image_tensors/IQtester_512.pt"
+    if not os.path.exists(os.path.dirname(output_file)):
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
     dataset = CustomImageDataset(root_dir=image_dir, transform=None)
     preprocessed_data = []
 

@@ -8,6 +8,8 @@ dependencies = [
   "opencv-python>=4.11.0.86",
   "pillow",
   "torch",
+  "torchvision>=0.25.0",
+  "tqdm>=4.67.3",
 ]
 description = "A simple python package to perform inline artefact detection on test station images"
 license = { file = "LICENSE" }
@@ -43,7 +45,7 @@ build-backend = "hatchling.build"
 requires = ["hatchling"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["ada_beta"]
+packages = ["aria"]
 
 [tool.mypy]
 exclude = [".venv"]

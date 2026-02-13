@@ -3,10 +3,10 @@ import torch
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
-from ada.data.image_class_mapping import CustomImageDataset, PreprocessedDatasetWithPaths
-from ada.models.auto_encoder import Autoencoder
-from ada.models.conv_AE import ConvAutoencoder
-from ada.utils.vae_plot import (
+from aria.data.image_class_mapping import CustomImageDataset, PreprocessedDatasetWithPaths
+from aria.models.auto_encoder import Autoencoder
+from aria.models.conv_AE import ConvAutoencoder
+from aria.utils.vae_plot import (
     collect_latent_coordinates,
     plot_reconstructed,
     plot_tsne_with_dbscan,

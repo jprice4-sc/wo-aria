@@ -4,16 +4,16 @@ from datetime import datetime
 
 import torch
 
-from ada.models.auto_encoder import Autoencoder
-from ada.models.conv_AE import ConvAutoencoder
-from ada.train.pre_process_train import create_data_loader, load_preprocessed_data, train
-from ada.utils.metric_logger import MetricLogger
+from aria.models.auto_encoder import Autoencoder
+from aria.models.conv_AE import ConvAutoencoder
+from aria.train.pre_process_train import create_data_loader, load_preprocessed_data, train
+from aria.utils.metric_logger import MetricLogger
 
 
 def main():
     start = time.time()
     preprocessed_file = (
-        r"D:\ADA\Proto_A_data\Autoencoder_work\preprocessed image tensors\preprocessed_IQtester_fill_512.pt"
+        "/Users/jprice/Documents/aria/preprocessed_image_tensors/IQtester_512.pt"
     )
     preprocessed_data = load_preprocessed_data(preprocessed_file)
 
@@ -28,7 +28,7 @@ def main():
 
     # timestamp and dir stuff
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    save_dir = f"D:\\ADA\\Proto_A_data\\Autoencoder_work\\flat_k_IQ_{timestamp}"
+    save_dir = f"/Users/jprice/Documents/aria/Autoencoder_work/flat_k_IQ_{timestamp}"
     os.makedirs(save_dir, exist_ok=True)
 
     # metric logger
