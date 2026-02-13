@@ -1,0 +1,57 @@
+[project]
+authors = [
+  # TEMPLATE: Add the list of authors here in this format.
+  # { name = "TEMPLATE_AUTHOR", email = "TEMPLATE_AUTHOR_EMAIL" },
+]
+dependencies = [
+  # TEMPLATE: Add dependencies of your package here.
+  "stollen[calc,plot]",
+]
+description = "TEMPLATE_DESCRIPTION"
+license = { file = "LICENSE" }
+name = "wo-aria"
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+version = "0.0.0"
+
+[dependency-groups]
+dev = [
+  # Code checking
+  "basedmypy",
+  "pip-audit",
+  "ruff",
+  # Running tests
+  "pytest",
+  # Documentation
+  "pydoctor",
+  # TEMPLATE: Add additional dependencies of your development environment here
+]
+
+[tool.uv]
+default-groups = ["dev"]
+index-url = "https://registry.snapchat.com/python/virtual/"
+native-tls = true
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["aria"]
+
+[tool.mypy]
+files = ["."]
+exclude = [".venv"]
+
+[tool.pydoctor]
+add-package = ["aria"]
+docformat = "google"
+html-output = "site"
+make-html = true
+project-name = "aria"
+template-dir = ["pydoctor_assets/assets"]
+# Supports hyperlinks to other library documentation
+intersphinx = [
+  "https://docs.python.org/3/objects.inv",
+]
+verbose = true

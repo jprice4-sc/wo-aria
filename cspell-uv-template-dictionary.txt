@@ -1,0 +1,14 @@
+aria
+basedmypy
+darkreader
+doctopus
+intersphinx
+ipynb
+libhdf
+machamp
+patchelf
+pydoctor
+pypirc
+snapci
+snaplab
+taplo
