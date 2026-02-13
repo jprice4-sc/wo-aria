@@ -16,6 +16,7 @@ class Encoder(nn.Module):
         x = F.relu(self.linear1(x))
         return self.linear2(x)
 
+
 class Decoder(nn.Module):
     def __init__(self, latent_dims, image_size):
         super(Decoder, self).__init__()
@@ -28,6 +29,7 @@ class Decoder(nn.Module):
         z = torch.sigmoid(self.linear2(z))
         return z.view(-1, 1, self.image_size, self.image_size)
 
+
 class Autoencoder(nn.Module):
     def __init__(self, latent_dims, image_size):
         super(Autoencoder, self).__init__()
@@ -37,7 +39,6 @@ class Autoencoder(nn.Module):
     def forward(self, x):
         z = self.encoder(x)
         return self.decoder(z)
-
 
 
 class VariationalEncoder(nn.Module):

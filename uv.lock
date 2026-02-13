@@ -23,7 +23,6 @@ dev = [
     { name = "pandas" },
     { name = "pip-audit" },
     { name = "pydoctor" },
-    { name = "pypylon" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
@@ -47,7 +46,6 @@ dev = [
     { name = "pandas", specifier = ">=2.2.0,<3.0.0" },
     { name = "pip-audit" },
     { name = "pydoctor" },
-    { name = "pypylon", specifier = "==4.1.0" },
     { name = "pytest" },
     { name = "pytest-cov", specifier = ">=6.2.1" },
     { name = "ruff" },
@@ -1449,18 +1447,6 @@ source = { registry = "https://registry.snapchat.com/python/virtual/" }
 sdist = { url = "https://registry.snapchat.com/python/virtual/pypi/f3/91/9c6ee907786a473bf81c5f53cf703ba0957b23ab84c264080fb5a450416f/pyparsing-3.3.2.tar.gz", hash = "sha256:c777f4d763f140633dcb6d8a3eda953bf7a214dc4eff598413c070bcdc117cbc", size = 6851574, upload-time = "2026-01-21T03:57:59.36Z" }
 wheels = [
     { url = "https://registry.snapchat.com/python/virtual/pypi/10/bd/c038d7cc38edc1aa5bf91ab8068b63d4308c66c4c8bb3cbba7dfbc049f9c/pyparsing-3.3.2-py3-none-any.whl", hash = "sha256:850ba148bd908d7e2411587e247a1e4f0327839c40e2e5e6d05a007ecc69911d", size = 122781, upload-time = "2026-01-21T03:57:55.912Z" },
-]
-
-[[package]]
-name = "pypylon"
-version = "4.1.0"
-source = { registry = "https://registry.snapchat.com/python/virtual/" }
-wheels = [
-    { url = "https://registry.snapchat.com/python/virtual/pypi/fc/20/a318f54433b94de8f5ce24fd0d83c4f3a91199169f29bda29a99f3be6525/pypylon-4.1.0-cp39-abi3-macosx_11_0_arm64.whl", hash = "sha256:08794d28e5f198c0f08fffaa3414a10b247d936fa23aa2ff1ca0420536c2f338", size = 28671870, upload-time = "2024-11-25T13:50:10.607Z" },
-    { url = "https://registry.snapchat.com/python/virtual/pypi/8c/4c/8c91c10381010e84e4c7f6c9d842dafbedc454e7cd1a74a286c0b9f075d3/pypylon-4.1.0-cp39-abi3-macosx_11_0_x86_64.whl", hash = "sha256:f098e9d10d95b638e99f61625bb0547054c22cd854413c9d9cad1402348df0ad", size = 28752107, upload-time = "2024-11-25T13:50:13.993Z" },
-    { url = "https://registry.snapchat.com/python/virtual/pypi/86/c7/e4f877d13c3a317760dd4c70e77a31395d2c4fc7b85fb1b31cecbf2b30f1/pypylon-4.1.0-cp39-abi3-manylinux_2_31_aarch64.whl", hash = "sha256:54b035b04c7f4c86e9b79207dd00c2805b6dfa14506ca53505bc0b3b72c1795e", size = 70725708, upload-time = "2024-11-25T14:27:42.56Z" },
-    { url = "https://registry.snapchat.com/python/virtual/pypi/68/66/b0de0755b9e07a505f4fdbcff37621b2b948ac4f436e76d778921a930875/pypylon-4.1.0-cp39-abi3-manylinux_2_31_x86_64.whl", hash = "sha256:6eaea6c71a0a05da30763e1801b165ffbbdcc590800f3917c979ac5c3b9c53ca", size = 81903026, upload-time = "2024-11-25T13:55:42.151Z" },
-    { url = "https://registry.snapchat.com/python/virtual/pypi/10/67/5484d6df0ddeb72e7898082b217a687f8a1343b29c069495f8d36e828146/pypylon-4.1.0-cp39-abi3-win_amd64.whl", hash = "sha256:d8ef3d5ca6b272490a390b103c73c7c4bb995d6957f70d1179ac6a56bc2adfee", size = 89477818, upload-time = "2024-11-25T13:53:24.113Z" },
 ]
 
 [[package]]
