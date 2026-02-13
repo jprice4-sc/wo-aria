@@ -22,12 +22,8 @@ def process_images_in_folder(root_folder, output_folder, target_size=(512, 683))
     os.makedirs(output_folder, exist_ok=True)
 
     for subdir, _, files in os.walk(root_folder):
-        # Skip processing if 'final_test' is not in the subdir path
-        if "final_test" not in subdir:
-            continue
-
         for file in files:
-            if "green_black_5.00000s" in file.lower() and file.lower().endswith((".png", "jpg", "jpeg", "bmp", "tiff")):
+            if file.lower().endswith((".png", "jpg", "jpeg", "bmp", "tiff")):
                 file_path = os.path.join(subdir, file)
 
                 # Determine the serial number directory by going one level up from 'final_test'
@@ -59,6 +55,6 @@ def process_images_in_folder(root_folder, output_folder, target_size=(512, 683))
 
 
 # Example usage
-root_folder = r"D:\ADA\Test_flow_cleanup\IQ TESTER"
-output_folder = r"D:\ADA\Test_flow_cleanup\IQ_test_preprocessed"
+root_folder = r"/Users/jprice/Documents/ADA/protoB/Artefact detection/IQ_Tester/IQ TESTER"
+output_folder = r"/Users/jprice/Documents/aria/IQ_Tester_preprocessed"
 process_images_in_folder(root_folder, output_folder)
