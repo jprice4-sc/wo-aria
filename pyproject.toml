@@ -1,30 +1,36 @@
 [project]
 authors = [
-  # TEMPLATE: Add the list of authors here in this format.
-  # { name = "TEMPLATE_AUTHOR", email = "TEMPLATE_AUTHOR_EMAIL" },
+  { name = "Joshua Price", email = "jprice4@snapchat.com" },
 ]
 dependencies = [
-  # TEMPLATE: Add dependencies of your package here.
-  "stollen[calc,plot]",
+  "dash>=3.2.0",
+  "numpy",
+  "opencv-python>=4.11.0.86",
+  "pillow",
+  "torch",
 ]
-description = "TEMPLATE_DESCRIPTION"
+description = "A simple python package to perform inline artefact detection on test station images"
 license = { file = "LICENSE" }
-name = "wo-aria"
+name = "aria"
 readme = "README.md"
-requires-python = ">=3.12,<4.0"
-version = "0.0.0"
+requires-python = ">3.12"
+version = "1.0.0"
+
+[project.scripts]
+test = "pytest:main"
 
 [dependency-groups]
 dev = [
-  # Code checking
   "basedmypy",
+  "git-lfs>=1.6",
+  "matplotlib==3.10.1",
+  "openpyxl==3.0.9",
+  "pandas>=2.2.0,<3.0.0",
   "pip-audit",
-  "ruff",
-  # Running tests
-  "pytest",
-  # Documentation
   "pydoctor",
-  # TEMPLATE: Add additional dependencies of your development environment here
+  "pytest",
+  "pytest-cov>=6.2.1",
+  "ruff",
 ]
 
 [tool.uv]
@@ -37,21 +43,33 @@ build-backend = "hatchling.build"
 requires = ["hatchling"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["aria"]
+packages = ["ada_beta"]
 
 [tool.mypy]
-files = ["."]
 exclude = [".venv"]
+files = ["."]
 
 [tool.pydoctor]
-add-package = ["aria"]
+add-package = ["ada-beta"]
 docformat = "google"
 html-output = "site"
 make-html = true
-project-name = "aria"
+project-name = "ada-beta"
 template-dir = ["pydoctor_assets/assets"]
-# Supports hyperlinks to other library documentation
-intersphinx = [
-  "https://docs.python.org/3/objects.inv",
-]
 verbose = true
+
+[tool.pytest.ini_options]
+addopts = [
+  "--disable-warnings",
+  "--strict-markers",
+  "--tb=short",
+  "-v",
+]
+markers = [
+  "integration: marks tests as integration tests",
+  "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+]
+python_classes = ["Test*"]
+python_files = ["*_test.py", "test_*.py"]
+python_functions = ["test_*"]
+testpaths = ["tests"]
