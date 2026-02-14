@@ -1,22 +1,11 @@
 import os
-import random
-from typing import Optional
 
 import cv2
 import numpy as np
 import torch
 from tqdm import tqdm
 
-# image_class_mapping.py
-
-import os
-import random
-
-import torch
-from PIL import Image, ImageFile
-from torch.utils.data import Dataset
-from torchvision import transforms
-from aria.data.image_class_mapping import CustomImageDataset, PreprocessedDatasetWithPaths
+from aria.data.image_class_mapping import CustomImageDataset
 
 
 def preprocess_16bit_image(image_path: str, target_size: tuple[int, int] = (224, 224)) -> torch.Tensor | None:
@@ -48,7 +37,7 @@ def preprocess_16bit_image(image_path: str, target_size: tuple[int, int] = (224,
     return torch.from_numpy(image).unsqueeze(0)
 
 
-if __name__:
+if __name__ == "__main__":
     image_dir = r'/Users/jprice/Documents/aria/preprocessed_images/IQ TESTER'
     output_file = r"/Users/jprice/Documents/aria/preprocessed_image_tensors/IQtester_512.pt"
     if not os.path.exists(os.path.dirname(output_file)):

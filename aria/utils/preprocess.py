@@ -11,7 +11,7 @@ def process_original_image(image_path, target_size=(224, 224)):
     image_np = np.array(image, dtype=np.float32)
     image_np /= 65535.0
 
-    min_val, max_val = np.percentile(image_np, (0, 100))
+    min_val, max_val = np.percentile(image_np, (2, 98))
     image_np = np.clip((image_np - min_val) / (max_val - min_val + 1e-6), 0, 1)
 
     return image_np
@@ -54,7 +54,7 @@ def process_images_in_folder(root_folder, output_folder, target_size=(512, 683))
                     print(f"Skipping {file_path} due to an error: {e}")
 
 
-# Example usage
-root_folder = r"/Users/jprice/Documents/ADA/protoB/Artefact detection/IQ_Tester/IQ TESTER"
-output_folder = r"/Users/jprice/Documents/aria/IQ_Tester_preprocessed"
-process_images_in_folder(root_folder, output_folder)
+if __name__ == "__main__":
+    root_folder = r"/Users/jprice/Documents/ADA/protoB/Artefact detection/IQ_Tester/IQ TESTER"
+    output_folder = r"/Users/jprice/Documents/aria/IQ_Tester_preprocessed"
+    process_images_in_folder(root_folder, output_folder)

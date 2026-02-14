@@ -17,7 +17,6 @@ class CustomImageDataset(Dataset):
         self.root_dir = root_dir
         self.transform = transform
         self.image_paths = []
-        self.labels = []
 
         for root, _, files in os.walk(root_dir):
             for file in files:
@@ -38,13 +37,6 @@ class CustomImageDataset(Dataset):
             image = self.transform(image)
 
         return image, 0  # Assuming you don't have labels
-
-    def print_class_info(self):
-        print(f"Number of classes: {len(self.label_to_index)}")
-        print("Classes and their directories:")
-        for label in self.label_to_index:
-            print(f"{self.label_to_index[label]}: {label}")
-
 
 class PreprocessedDatasetWithPaths(torch.utils.data.Dataset):
     def __init__(self, preprocessed_file):

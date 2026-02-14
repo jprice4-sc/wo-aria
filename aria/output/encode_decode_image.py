@@ -2,11 +2,11 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from PIL import Image, ImageEnhance
+from PIL import Image
 from torchvision import transforms
 
 from aria.models.auto_encoder import Autoencoder
-from aria.models.conv_AE import ConvAutoencoder
+from aria.utils.preprocess import process_original_image
 
 img_size = 224
 
@@ -37,22 +37,6 @@ def prepare_image(image_path, device):
     image = Image.fromarray(image).convert("L")
     image = transform(image).unsqueeze(0).to(device)
     return image
-
-
-def process_original_image(image_path, target_size=(224, 224)):
-    """Converts original 16-bit image to grayscale, resizes it to match the autoencoder output,
-    normalizes pixel values properly, and applies contrast stretching.
-    """
-    image = Image.open(image_path).convert("I")  # Preserve 16-bit depth
-    image = image.resize(target_size, Image.LANCZOS)  # Resize to match reconstruction
-
-    # normalisation
-    image_np = np.array(image).astype(np.float32)
-    image_np = image_np / 65535.0
-    min_val, max_val = np.percentile(image_np, (2, 98))
-    image_np = np.clip((image_np - min_val) / (max_val - min_val + 1e-6), 0, 1)
-
-    return image_np
 
 
 def visualize_reconstruction(original_corrected, reconstructed, title="Reconstruction"):

@@ -39,7 +39,7 @@ def train(autoencoder, data_loader, epochs=20, device="cpu", logger=None, lr=1e-
                 raise ValueError(f"Unexpected number of elements in batch: {len(batch)}")
 
             x = x.to(device)
-            optimizer.zero_grad
+            optimizer.zero_grad()
             x_hat = autoencoder(x)
             loss = torch.nn.functional.mse_loss(x_hat, x) + getattr(
                 autoencoder.encoder, "kl", 0

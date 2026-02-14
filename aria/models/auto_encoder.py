@@ -42,9 +42,10 @@ class Autoencoder(nn.Module):
 
 
 class VariationalEncoder(nn.Module):
-    def __init__(self, latent_dims):
+    def __init__(self, latent_dims, image_size):
         super(VariationalEncoder, self).__init__()
-        self.linear1 = nn.Linear(784, 512)
+        self.image_size = image_size
+        self.linear1 = nn.Linear(image_size * image_size, 512)
         self.linear2 = nn.Linear(512, latent_dims)
         self.linear3 = nn.Linear(512, latent_dims)
 
@@ -62,10 +63,10 @@ class VariationalEncoder(nn.Module):
 
 
 class VariationalAutoencoder(nn.Module):
-    def __init__(self, latent_dims):
+    def __init__(self, latent_dims, image_size):
         super(VariationalAutoencoder, self).__init__()
-        self.encoder = VariationalEncoder(latent_dims)
-        self.decoder = Decoder(latent_dims)
+        self.encoder = VariationalEncoder(latent_dims, image_size)
+        self.decoder = Decoder(latent_dims, image_size)
 
     def forward(self, x):
         z = self.encoder(x)
