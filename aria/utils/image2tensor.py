@@ -16,43 +16,7 @@ import torch
 from PIL import Image, ImageFile
 from torch.utils.data import Dataset
 from torchvision import transforms
-
-# Ensure loading of truncated images
-ImageFile.LOAD_TRUNCATED_IMAGES = True
-
-
-class CustomImageDataset(Dataset):
-    def __init__(self, root_dir, transform=None):
-        self.root_dir = root_dir
-        self.transform = transform
-        self.image_paths = []
-        self.labels = []
-
-        for root, _, files in os.walk(root_dir):
-            for file in files:
-                if file.endswith((".png", ".jpg", ".jpeg")):
-                    self.image_paths.append(os.path.join(root, file))
-
-    def __len__(self):
-        return len(self.image_paths)
-
-    def __getitem__(self, idx):
-        img_path = self.image_paths[idx]
-        image = Image.open(img_path)
-
-        if image.mode != "L":
-            image = image.convert("L")
-
-        if self.transform:
-            image = self.transform(image)
-
-        return image, 0  # Assuming you don't have labels
-
-    def print_class_info(self):
-        print(f"Number of classes: {len(self.label_to_index)}")
-        print("Classes and their directories:")
-        for label in self.label_to_index:
-            print(f"{self.label_to_index[label]}: {label}")
+from aria.data.image_class_mapping import CustomImageDataset, PreprocessedDatasetWithPaths
 
 
 def preprocess_16bit_image(image_path: str, target_size: tuple[int, int] = (224, 224)) -> torch.Tensor | None:

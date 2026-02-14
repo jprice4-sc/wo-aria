@@ -4,9 +4,11 @@ authors = [
 ]
 dependencies = [
   "dash>=3.2.0",
+  "mplcursors>=0.7",
   "numpy",
   "opencv-python>=4.11.0.86",
   "pillow",
+  "scikit-learn>=1.8.0",
   "torch",
   "torchvision>=0.25.0",
   "tqdm>=4.67.3",

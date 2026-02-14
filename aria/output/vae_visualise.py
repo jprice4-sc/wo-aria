@@ -3,7 +3,6 @@ import torch
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
-from aria.data.image_class_mapping import CustomImageDataset, PreprocessedDatasetWithPaths
 from aria.models.auto_encoder import Autoencoder
 from aria.models.conv_AE import ConvAutoencoder
 from aria.utils.vae_plot import (
@@ -11,6 +10,7 @@ from aria.utils.vae_plot import (
     plot_reconstructed,
     plot_tsne_with_dbscan,
 )
+from aria.data.image_class_mapping import CustomImageDataset, PreprocessedDatasetWithPaths
 
 
 def load_model(model_path, latent_dims, device) -> Autoencoder:
@@ -34,8 +34,8 @@ def prepare_data_loader(preprocessed_file: str, batch_size: int) -> DataLoader:
 
 
 if __name__ == "__main__":
-    model_path = r"D:\ADA\Proto_A_data\Autoencoder_work\flat_k_IQ_20250417_103206\autoencoder_16_512.pth"
-    preprocessed_file = r"D:\ADA\Proto_A_data\Autoencoder_work\preprocessed image tensors\preprocessed_IQtester_512.pt"
+    model_path = "/Users/jprice/Documents/aria/Autoencoder_work/flat_k_IQ_20260213_234702/autoencoder_16_512.pth"
+    preprocessed_file = "/Users/jprice/Documents/aria/preprocessed_image_tensors/IQtester_512.pt"
     latent_dims = 16
     batch_size = 8
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -51,11 +51,11 @@ if __name__ == "__main__":
         data_loader,
         device=device,
         num_batches=200,
-        output_csv=r"D:\ADA\Proto_A_data\Autoencoder_work\flat_k_AA_20250417_094507\latent_coordinates_conAE_512.csv",
+        output_csv="/Users/jprice/Documents/aria/Autoencoder_work/flat_k_IQ_20260213_234702/latent_coordinates_conAE_512.csv",
     )
 
-    input_csv_path = r"D:\ADA\Proto_A_data\Autoencoder_work\flat_k_AA_20250417_094507\latent_coordinates_conAE_512.csv"
-    output_csv_path = r"D:\ADA\Proto_A_data\Autoencoder_work\flat_k_AA_20250417_094507\tsne_dbscan.csv"
+    input_csv_path = "/Users/jprice/Documents/aria/Autoencoder_work/flat_k_IQ_20260213_234702/latent_coordinates_conAE_512.csv"
+    output_csv_path = "/Users/jprice/Documents/aria/Autoencoder_work/flat_k_IQ_20260213_234702/tsne_dbscan.csv"
 
     plot_tsne_with_dbscan(
         input_csv_path,

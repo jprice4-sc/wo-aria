@@ -5,7 +5,6 @@ from download import (
     Station,
     TestFileManager,
     TestImage,
-    get_oe_serials_from_csv,
     test_image_filter,
 )
 
