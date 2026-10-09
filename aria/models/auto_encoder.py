@@ -56,9 +56,11 @@ class VariationalEncoder(nn.Module):
         x = torch.flatten(x, start_dim=1)
         x = F.relu(self.linear1(x))
         mu = self.linear2(x)
-        sigma = torch.exp(self.linear3(x))
+        log_sigma = self.linear3(x)
+        sigma = torch.exp(log_sigma)
         z = mu + sigma * self.N.sample(mu.shape).to(x.device)
-        self.kl = (sigma**2 + mu**2 - torch.log(sigma) - 1 / 2).sum()
+        # per-element mean to match the scale of the mean reconstruction loss
+        self.kl = 0.5 * torch.mean(sigma**2 + mu**2 - 2 * log_sigma - 1)
         return z
 
 

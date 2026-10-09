@@ -1,79 +1,69 @@
-import cv2
 import matplotlib.pyplot as plt
-import numpy as np
 import torch
-from PIL import Image
-from torchvision import transforms
 
-from aria.models.auto_encoder import Autoencoder
-from aria.utils.preprocess import process_original_image
+from aria.models.spatial_AE import SpatialAutoencoder
+from aria.train.losses import ssim
+from aria.utils.image2tensor import preprocess_16bit_image
 
-img_size = 224
+img_size = 512
 
 
-def load_model(model_path, latent_dims, device):
-    """Loads the trained autoencoder model from the specified path."""
-    model = torch.load(model_path, map_location=device)
-
-    autoencoder = Autoencoder(latent_dims, image_size=img_size).to(device)
-    autoencoder.load_state_dict(model)
-
+def load_model(model_path, latent_channels, variational, device):
+    """Loads the trained spatial autoencoder model from the specified path."""
+    autoencoder = SpatialAutoencoder(latent_channels=latent_channels, variational=variational)
+    autoencoder.load_state_dict(torch.load(model_path, map_location=device))
     autoencoder.to(device)
     autoencoder.eval()
     return autoencoder
 
 
 def prepare_image(image_path, device):
-    """Prepares the image for inference by resizing and normalizing it."""
-    transform = transforms.Compose(
-        [
-            transforms.Resize((224, 224)),
-            transforms.ToTensor(),
-        ]
-    )
-
-    # Read image using OpenCV
-    image = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
-    image = Image.fromarray(image).convert("L")
-    image = transform(image).unsqueeze(0).to(device)
-    return image
+    """Prepares the image for inference using the same preprocessing as training."""
+    image = preprocess_16bit_image(image_path, target_size=(img_size, img_size))
+    if image is None:
+        raise ValueError(f"Could not load image {image_path}")
+    return image.unsqueeze(0).to(device=device, dtype=torch.float32)
 
 
-def visualize_reconstruction(original_corrected, reconstructed, title="Reconstruction"):
-    """Displays:
-    - The original image with optimized 16-bit contrast correction.
-    - The reconstructed image directly as-is.
-    """
-    fig, axes = plt.subplots(1, 2, figsize=(12, 6))
+def visualize_reconstruction(original, reconstructed, title="Reconstruction"):
+    """Displays the original, the reconstruction and their absolute difference on the same intensity scale."""
+    fig, axes = plt.subplots(1, 3, figsize=(18, 6))
 
-    # plots
-    axes[0].imshow(original_corrected, cmap="gray", vmin=0, vmax=1)
-    axes[0].set_title("Original (16-bit Corrected)")
-    axes[0].axis("off")
+    axes[0].imshow(original, cmap="gray", vmin=0, vmax=1)
+    axes[0].set_title("Original")
 
-    axes[1].imshow(reconstructed, cmap="gray", vmin=0.7, vmax=1.1)
+    axes[1].imshow(reconstructed, cmap="gray", vmin=0, vmax=1)
     axes[1].set_title(title)
-    axes[1].axis("off")
 
+    # difference is small, so let it autoscale to make residual structure visible
+    diff = axes[2].imshow(abs(original - reconstructed), cmap="magma")
+    axes[2].set_title("|Original - Reconstruction|")
+    fig.colorbar(diff, ax=axes[2], fraction=0.046)
+
+    for ax in axes:
+        ax.axis("off")
     plt.tight_layout()
     plt.show()
 
 
 if __name__ == "__main__":
-    model_path = r"D:\ADA\AE's\saved_models\autoencoder_16_224.pth"
-    image_path = r"D:\ADA\AE's\aa_projector_data\flat_k\left_flat_k\TF20AS1_Left_flat_k.png"
-    latent_dims = 16
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    # point this at the .pth saved by aria/scripts/pre_processed_test.py
+    model_path = "/Users/jprice/Documents/aria/Autoencoder_work/flat_k_IQ_20261009_141629/spatial_vae_4_512.pth"
+    image_path = "/Users/jprice/Documents/ADA_beta/DVT/DOE9/black_IQ_TESTER/000004943_C26010292A7_left_final_test_green_black_0.99911s.png"
+    latent_channels = 4
+    variational = True
+    if torch.cuda.is_available():
+        device = "cuda"
+    elif torch.backends.mps.is_available():
+        device = "mps"
+    else:
+        device = "cpu"
 
-    autoencoder = load_model(model_path, latent_dims, device)
+    autoencoder = load_model(model_path, latent_channels, variational, device)
     image = prepare_image(image_path, device)
 
-    # Get the reconstruction
     with torch.no_grad():
         reconstructed = autoencoder(image)
-        reconstructed = reconstructed.squeeze().cpu().numpy()
+        print(f"SSIM: {ssim(reconstructed, image).item():.4f}")
 
-    original_corrected = process_original_image(image_path, target_size=(img_size, img_size))
-
-    # Visualize
-    visualize_reconstruction(original_corrected, reconstructed)
+    visualize_reconstruction(image.squeeze().cpu().numpy(), reconstructed.squeeze().cpu().numpy())

@@ -49,8 +49,11 @@ def plot_reconstructed(autoencoder, latent_dims, device="cpu", r0=(-5, 10), r1=(
 
 
 def collect_latent_coordinates(
-    autoencoder, data_loader, device="cpu", num_batches=100, output_csv="latent_coordinates.csv"
+    autoencoder, data_loader, device="cpu", num_batches=100, output_csv="latent_coordinates.csv", pool_size=8
 ):
+    """Spatial latents (N, C, H, W) are average-pooled to (C, pool_size, pool_size) and flattened;
+    vector latents are written as-is.
+    """
     latent_vectors = []
     image_references = []
 
@@ -59,8 +62,11 @@ def collect_latent_coordinates(
         # label: label (not used here)
         # path: image path
 
-        z = autoencoder.encoder(x.to(device)).detach().cpu().numpy()
-        latent_vectors.extend(z)
+        with torch.no_grad():
+            z = autoencoder.encoder(x.to(device))
+        if z.dim() == 4:
+            z = torch.nn.functional.adaptive_avg_pool2d(z, pool_size).flatten(start_dim=1)
+        latent_vectors.extend(z.cpu().numpy())
         image_references.extend(path)
 
         if i >= num_batches:
