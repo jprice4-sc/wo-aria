@@ -11,7 +11,7 @@ from aria.utils.metric_logger import MetricLogger
 
 def main():
     start = time.time()
-    preprocessed_file = "/Users/jprice/Documents/aria/preprocessed_image_tensors/IQtester_512.pt"
+    preprocessed_file = "/Users/jprice/Documents/aria/preprocessed_image_tensors/short_512.pt"
     preprocessed_data = load_preprocessed_data(preprocessed_file)
 
     latent_channels = 4  # latent is latent_channels x 64 x 64 for 512 x 512 inputs
